@@ -1,9 +1,14 @@
 import { Result } from '@/@shared/classes/result';
-import {
-  TIAProviderBulkClassificationPriorityEnum,
-  TIAProviderMockDelayEnum,
-} from './tia-provider.enums';
+import { TIAProviderMockDelayEnum } from './tia-provider.enums';
 import { ITIAProviderClassifyProductDetails } from './tia-provider-classify-product.struct';
+import {
+  ITIAProviderBulkClassificationResultByGroupIdResponse,
+  ITIAProviderBulkClassificationsDownloadables,
+  ITIAProviderBulkClassificationStatusByGroupIdResponse,
+  ITIAProviderBulkClassifyDTO,
+  ITIAProviderBulkClassifyQueueStatusesResponse,
+  ITIAProviderBulkClassifyResponse,
+} from './tia-provider-bulk-classify.struct';
 
 export interface ITIAProviderEnvironment {
   clientId: string;
@@ -36,28 +41,6 @@ export interface ITIAProviderClassifyProductDTO {
   mockDelay?: TIAProviderMockDelayEnum | number;
 }
 
-export interface ITIAProviderBulkClassifyDTO {
-  engine: string;
-  priority: TIAProviderBulkClassificationPriorityEnum;
-  forceReprocess: boolean;
-  file: {
-    buffer: Buffer<ArrayBufferLike>;
-    originalname: string;
-    mimetype: string;
-    size: number;
-  };
-
-  requestId?: string;
-  description?: string;
-  testMode?: boolean;
-  mockDelay?: TIAProviderMockDelayEnum | number;
-}
-
-export interface ITIAProviderBulkClassifyResponse {
-  message: string;
-  group_id: string;
-}
-
 export abstract class TTIAProvider {
   /// //////////////////////////
   //  Utilities
@@ -71,10 +54,6 @@ export abstract class TTIAProvider {
   /// //////////////////////////
   //  Classifciations
   /// //////////////////////////
-  abstract classificationsCounts(): Promise<
-    Result<ITIAProviderClassificationsCountsResponse>
-  >;
-
   // Single Product
   abstract classifyProduct(
     payload: ITIAProviderClassifyProductDTO,
@@ -84,4 +63,22 @@ export abstract class TTIAProvider {
   abstract bulkClassify(
     payload: ITIAProviderBulkClassifyDTO,
   ): Promise<Result<ITIAProviderBulkClassifyResponse>>;
+  abstract bulkClassifyQueueStatuses(): Promise<
+    Result<ITIAProviderBulkClassifyQueueStatusesResponse>
+  >;
+  abstract bulkClassificationsDownloadables(): Promise<
+    Result<ITIAProviderBulkClassificationsDownloadables>
+  >;
+  abstract bulkClassificationStatusByGroupId(
+    groupId: string,
+  ): Promise<Result<ITIAProviderBulkClassificationStatusByGroupIdResponse>>;
+  abstract deleteBulkClassificationByGroupId(
+    groupId: string,
+  ): Promise<Result<{ message: string }>>;
+  abstract bulkClassificationResultByGroupId(
+    groupId: string,
+  ): Promise<Result<ITIAProviderBulkClassificationResultByGroupIdResponse>>;
+  abstract cancelBulkClassificationByGroupId(
+    groupId: string,
+  ): Promise<Result<{ message: string }>>;
 }

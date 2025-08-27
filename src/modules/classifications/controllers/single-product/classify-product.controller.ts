@@ -11,7 +11,7 @@ import {
 } from '../../dto/single-product/classify-product.dto';
 import { TClassifyProductService } from '../../services/single-product/classify-product.service';
 
-@Controller('classifications/classify-product')
+@Controller('classifications/single-product/classify')
 export class ClassifyProductController {
   constructor(
     /// //////////////////////////

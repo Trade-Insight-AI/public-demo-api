@@ -24,7 +24,7 @@ import {
 import { TBulkClassifyService } from '../../services/bulk/bulk-classify.service';
 import { BulkClassifyDocumentation } from '../../@docs/bulk-classify.doc';
 
-@Controller('classifications/bulk-classify')
+@Controller('classifications/bulk/classify')
 export class BulkClassifyController {
   constructor(
     /// //////////////////////////

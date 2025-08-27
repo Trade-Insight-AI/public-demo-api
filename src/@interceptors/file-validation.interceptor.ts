@@ -1,9 +1,9 @@
+import { DefaultException } from '@/@shared/errors/abstract-application-exception';
 import {
   Injectable,
   NestInterceptor,
   ExecutionContext,
   CallHandler,
-  BadRequestException,
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 
@@ -32,7 +32,7 @@ export class FileValidationInterceptor implements NestInterceptor {
     const file = request.file;
 
     if (!file && this.isRequired) {
-      throw new BadRequestException('File required');
+      throw new DefaultException('File required');
     }
 
     if (file) {
@@ -43,7 +43,7 @@ export class FileValidationInterceptor implements NestInterceptor {
 
       if (!allowedMimeTypesValues.includes(file.mimetype as string)) {
         const allowedTypesString = this.getAllowedTypesString();
-        throw new BadRequestException(
+        throw new DefaultException(
           `File type not allowed. Only ${allowedTypesString} are accepted.`,
         );
       }

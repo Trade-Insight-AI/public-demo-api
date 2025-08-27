@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { Inject, Injectable } from '@nestjs/common';
 import { AxiosError, AxiosInstance } from 'axios';
 
@@ -9,9 +10,6 @@ import {
   ITIAProviderListEnginesResponse,
   ITIAProviderClassifyProductDTO,
   ITIAProviderAccountBalanceResponse,
-  ITIAProviderBulkClassifyDTO,
-  ITIAProviderBulkClassifyResponse,
-  ITIAProviderClassificationsCountsResponse,
 } from '../models/tia-provider.struct';
 import {
   TIA_PROVIDER_ENVIRONMENT,
@@ -19,6 +17,14 @@ import {
 } from '../models/tia-provider-metadata.struct';
 import { DefaultException } from '@/@shared/errors/abstract-application-exception';
 import { ITIAProviderClassifyProductDetails } from '../models/tia-provider-classify-product.struct';
+import {
+  ITIAProviderBulkClassificationResultByGroupIdResponse,
+  ITIAProviderBulkClassificationsDownloadables,
+  ITIAProviderBulkClassificationStatusByGroupIdResponse,
+  ITIAProviderBulkClassifyDTO,
+  ITIAProviderBulkClassifyQueueStatusesResponse,
+  ITIAProviderBulkClassifyResponse,
+} from '../models/tia-provider-bulk-classify.struct';
 
 @Injectable()
 export class TIAProvider implements TTIAProvider {
@@ -38,6 +44,7 @@ export class TIAProvider implements TTIAProvider {
       classifyProduct: 'classify/v1',
 
       bulkClassify: 'bulk-classifications/v1',
+      bulkClassificationPath: 'bulk-classifications/v1',
     },
   };
 
@@ -130,33 +137,6 @@ export class TIAProvider implements TTIAProvider {
     }
   }
 
-  async classificationsCounts(): Promise<
-    Result<ITIAProviderClassificationsCountsResponse>
-  > {
-    try {
-      this.logger.log(`[TIAProvider classificationsCounts]`);
-
-      await this.validateAndAutoRefreshTokenIfNeeded();
-
-      const { data } = await this.httpClient.get(
-        this.paths.classifications.counts,
-        {
-          headers: {
-            Authorization: `Bearer ${this.tiaAccessToken}`,
-          },
-        },
-      );
-
-      this.logger.log(
-        `[TIAProvider classificationsCounts] response: ${JSON.stringify(data)}`,
-      );
-
-      return Result.success(data);
-    } catch (error) {
-      return Result.fail(this.errorHandler(error));
-    }
-  }
-
   async classifyProduct(
     payload: ITIAProviderClassifyProductDTO,
   ): Promise<Result<ITIAProviderClassifyProductDetails>> {
@@ -192,7 +172,10 @@ export class TIAProvider implements TTIAProvider {
   ): Promise<Result<ITIAProviderBulkClassifyResponse>> {
     try {
       this.logger.log(
-        `[TIAProvider bulkClassify] payload: ${JSON.stringify(payload)}`,
+        `[TIAProvider bulkClassify] payload: ${JSON.stringify({
+          ...payload,
+          file: payload.file.originalname,
+        })}`,
       );
 
       await this.validateAndAutoRefreshTokenIfNeeded();
@@ -220,6 +203,177 @@ export class TIAProvider implements TTIAProvider {
 
       this.logger.log(
         `[TIAProvider bulkClassify] response: ${JSON.stringify(data)}`,
+      );
+
+      return Result.success(data);
+    } catch (error) {
+      return Result.fail(this.errorHandler(error));
+    }
+  }
+
+  async bulkClassifyQueueStatuses(): Promise<
+    Result<ITIAProviderBulkClassifyQueueStatusesResponse>
+  > {
+    try {
+      this.logger.log(`[TIAProvider bulkClassifyQueueStatuses]`);
+
+      await this.validateAndAutoRefreshTokenIfNeeded();
+
+      const { data } = await this.httpClient.get(
+        `${this.paths.classifications.bulkClassificationPath}/queue-status`,
+        {
+          headers: {
+            Authorization: `Bearer ${this.tiaAccessToken}`,
+          },
+        },
+      );
+
+      this.logger.log(
+        `[TIAProvider bulkClassifyQueueStatuses] response: ${JSON.stringify(data)}`,
+      );
+
+      return Result.success(data);
+    } catch (error) {
+      return Result.fail(this.errorHandler(error));
+    }
+  }
+
+  async bulkClassificationsDownloadables(): Promise<
+    Result<ITIAProviderBulkClassificationsDownloadables>
+  > {
+    try {
+      this.logger.log(`[TIAProvider bulkClassificationsDownloadables]`);
+
+      await this.validateAndAutoRefreshTokenIfNeeded();
+
+      const { data } = await this.httpClient.get(
+        `${this.paths.classifications.bulkClassificationPath}/downloadable`,
+        {
+          headers: {
+            Authorization: `Bearer ${this.tiaAccessToken}`,
+          },
+        },
+      );
+
+      this.logger.log(
+        `[TIAProvider bulkClassificationsDownloadables] response: ${JSON.stringify(data)}`,
+      );
+
+      return Result.success(data);
+    } catch (error) {
+      return Result.fail(this.errorHandler(error));
+    }
+  }
+
+  async bulkClassificationStatusByGroupId(
+    groupId: string,
+  ): Promise<Result<ITIAProviderBulkClassificationStatusByGroupIdResponse>> {
+    try {
+      this.logger.log(
+        `[TIAProvider bulkClassificationStatusByGroupId] ${groupId}`,
+      );
+
+      await this.validateAndAutoRefreshTokenIfNeeded();
+
+      const { data } = await this.httpClient.get(
+        `${this.paths.classifications.bulkClassificationPath}/${groupId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${this.tiaAccessToken}`,
+          },
+        },
+      );
+
+      this.logger.log(
+        `[TIAProvider bulkClassificationStatusByGroupId] response: ${JSON.stringify(data)}`,
+      );
+
+      return Result.success(data);
+    } catch (error) {
+      return Result.fail(this.errorHandler(error));
+    }
+  }
+
+  async deleteBulkClassificationByGroupId(
+    groupId: string,
+  ): Promise<Result<{ message: string }>> {
+    try {
+      this.logger.log(
+        `[TIAProvider deleteBulkClassificationByGroupId] ${groupId}`,
+      );
+
+      await this.validateAndAutoRefreshTokenIfNeeded();
+
+      const { data } = await this.httpClient.delete(
+        `${this.paths.classifications.bulkClassificationPath}/${groupId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${this.tiaAccessToken}`,
+          },
+        },
+      );
+
+      this.logger.log(
+        `[TIAProvider deleteBulkClassificationByGroupId] response: ${JSON.stringify(data)}`,
+      );
+
+      return Result.success(data);
+    } catch (error) {
+      return Result.fail(this.errorHandler(error));
+    }
+  }
+
+  async bulkClassificationResultByGroupId(
+    groupId: string,
+  ): Promise<Result<ITIAProviderBulkClassificationResultByGroupIdResponse>> {
+    try {
+      this.logger.log(
+        `[TIAProvider bulkClassificationResultByGroupId] ${groupId}`,
+      );
+
+      await this.validateAndAutoRefreshTokenIfNeeded();
+
+      const { data } = await this.httpClient.get(
+        `${this.paths.classifications.bulkClassificationPath}/${groupId}/results`,
+        {
+          headers: {
+            Authorization: `Bearer ${this.tiaAccessToken}`,
+          },
+        },
+      );
+
+      this.logger.log(
+        `[TIAProvider bulkClassificationResultByGroupId] response: ${JSON.stringify(data)}`,
+      );
+
+      return Result.success(data);
+    } catch (error) {
+      return Result.fail(this.errorHandler(error));
+    }
+  }
+
+  async cancelBulkClassificationByGroupId(
+    groupId: string,
+  ): Promise<Result<{ message: string }>> {
+    try {
+      this.logger.log(
+        `[TIAProvider cancelBulkClassificationByGroupId] ${groupId}`,
+      );
+
+      await this.validateAndAutoRefreshTokenIfNeeded();
+
+      const { data } = await this.httpClient.post(
+        `${this.paths.classifications.bulkClassificationPath}/${groupId}/cancel`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${this.tiaAccessToken}`,
+          },
+        },
+      );
+
+      this.logger.log(
+        `[TIAProvider bulkClassificationResultByGroupId] response: ${JSON.stringify(data)}`,
       );
 
       return Result.success(data);

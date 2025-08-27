@@ -3,14 +3,12 @@ import { ILogger } from '@/@shared/classes/custom-logger';
 import { Result } from '@/@shared/classes/result';
 import { AbstractService } from '@/@shared/classes/service';
 import { IRequestContext } from '@/@shared/protocols/request-context.struct';
-import {
-  ITIAProviderBulkClassifyResponse,
-  TTIAProvider,
-} from '@/@shared/providers/tia-provider/models/tia-provider.struct';
+import { TTIAProvider } from '@/@shared/providers/tia-provider/models/tia-provider.struct';
 import {
   TBulkClassifyDtoServiceSchema,
   bulkClassifyDtoServiceSchema,
 } from '../../dto/bulk/bulk-classify.dto';
+import { ITIAProviderBulkClassifyResponse } from '@/@shared/providers/tia-provider/models/tia-provider-bulk-classify.struct';
 
 export abstract class TBulkClassifyService extends AbstractService<
   TBulkClassifyDtoServiceSchema,
@@ -43,7 +41,11 @@ export class BulkClassifyService implements TBulkClassifyService {
     const validatedDto = validateDtoResult.getValue()!;
 
     this.logger.log(
-      `Bulk classifying: ${JSON.stringify(validatedDto)}`,
+      `Bulk classifying: ${JSON.stringify({
+        ...validatedDto,
+        file: validatedDto.file.originalname,
+        'typeof forceReprocess': typeof validatedDto.forceReprocess,
+      })}`,
       context,
     );
 

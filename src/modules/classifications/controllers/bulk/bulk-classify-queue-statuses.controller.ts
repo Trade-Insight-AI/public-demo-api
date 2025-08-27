@@ -3,20 +3,20 @@ import { ApiDocumentation } from '@/@decorators/api-documentation.decorator';
 import { ReqContext } from '@/@decorators/request-context.decorator';
 import { AbstractApplicationException } from '@/@shared/errors/abstract-application-exception';
 import { IRequestContext } from '@/@shared/protocols/request-context.struct';
-import { TClassificationsCountsService } from '../services/classifications-counts.service';
-import { ClassificationsCountsDocumentation } from '../@docs/classifications-counts.doc';
+import { TBulkClassifyQueueStatusesService } from '../../services/bulk/bulk-classify-queue-statuses.service';
+import { BulkClassifyQueueStatusesDocumentation } from '../../@docs/bulk-classify-queue-statuses.doc';
 
-@Controller('classifications/counts')
-export class ClassificationsCountsController {
+@Controller('classifications/bulk/queue-statuses')
+export class BulkClassifyQueueStatusesController {
   constructor(
     /// //////////////////////////
     //  Services
     /// //////////////////////////
-    private service: TClassificationsCountsService,
+    private service: TBulkClassifyQueueStatusesService,
   ) {}
 
   @Get()
-  @ApiDocumentation(ClassificationsCountsDocumentation)
+  @ApiDocumentation(BulkClassifyQueueStatusesDocumentation)
   async handle(@ReqContext() context: IRequestContext) {
     const result = await this.service.execute(undefined, context);
 

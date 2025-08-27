@@ -4,18 +4,20 @@ import {
 } from '@/@shared/providers/tia-provider/models/tia-provider.enums';
 import { z } from 'zod';
 
+const stringToBoolean = z.union([
+  z.string().transform((value) => value === 'true' || value === '1'),
+  z.boolean().default(false),
+]);
+
 export const bulkClassifyDtoBodySchema = z.object({
   engine: z.string().min(1, 'Engine is required'),
   priority: z.nativeEnum(TIAProviderBulkClassificationPriorityEnum),
-  forceReprocess: z.union([
-    z.string().transform((value) => value === 'true' || value === '1'),
-    z.boolean().default(false),
-  ]),
+  forceReprocess: stringToBoolean,
 
-  requestId: z.string().optional(),
+  requestId: z.string().uuid().optional(),
   description: z.string().optional(),
 
-  testMode: z.boolean().optional(),
+  testMode: stringToBoolean.optional(),
   mockDelay: z
     .union([
       z.nativeEnum(TIAProviderMockDelayEnum),
