@@ -10,7 +10,7 @@ export const ClassifyProductDocumentation: IApiDocumentationOptions = {
 **Response Structure:**
 Returns detailed classification information including chapters, headings, final classification, and billing details.`,
   tags: ['classifications'],
-  auth: false,
+  auth: true,
   body: {
     description: 'Product classification request',
     type: ClassifyProductRequestDoc,

@@ -11,6 +11,7 @@ import {
   ITIAProviderAccountBalanceResponse,
   ITIAProviderBulkClassifyDTO,
   ITIAProviderBulkClassifyResponse,
+  ITIAProviderClassificationsCountsResponse,
 } from '../models/tia-provider.struct';
 import {
   TIA_PROVIDER_ENVIRONMENT,
@@ -32,6 +33,8 @@ export class TIAProvider implements TTIAProvider {
       balance: 'transaction/balance',
     },
     classifications: {
+      counts: 'stats/classifications/count',
+
       classifyProduct: 'classify/v1',
 
       bulkClassify: 'bulk-classifications/v1',
@@ -119,6 +122,33 @@ export class TIAProvider implements TTIAProvider {
 
       this.logger.log(
         `[TIAProvider accountBalance] response: ${JSON.stringify(data)}`,
+      );
+
+      return Result.success(data);
+    } catch (error) {
+      return Result.fail(this.errorHandler(error));
+    }
+  }
+
+  async classificationsCounts(): Promise<
+    Result<ITIAProviderClassificationsCountsResponse>
+  > {
+    try {
+      this.logger.log(`[TIAProvider classificationsCounts]`);
+
+      await this.validateAndAutoRefreshTokenIfNeeded();
+
+      const { data } = await this.httpClient.get(
+        this.paths.classifications.counts,
+        {
+          headers: {
+            Authorization: `Bearer ${this.tiaAccessToken}`,
+          },
+        },
+      );
+
+      this.logger.log(
+        `[TIAProvider classificationsCounts] response: ${JSON.stringify(data)}`,
       );
 
       return Result.success(data);

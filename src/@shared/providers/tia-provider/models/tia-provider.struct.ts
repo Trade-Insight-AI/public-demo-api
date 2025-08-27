@@ -17,19 +17,23 @@ export interface ITIAProviderListEnginesResponse {
   }[];
 }
 
-export interface ITIAProviderClassifyProductDTO {
-  productDescription: string;
-  engine: string;
-  testMode?: boolean;
-  mockDelay?: TIAProviderMockDelayEnum | number;
-}
-
 export interface ITIAProviderAccountBalanceResponse {
   message: string;
   data: {
     balance: number;
     currency: string;
   };
+}
+
+export interface ITIAProviderClassificationsCountsResponse {
+  count: number;
+}
+
+export interface ITIAProviderClassifyProductDTO {
+  productDescription: string;
+  engine: string;
+  testMode?: boolean;
+  mockDelay?: TIAProviderMockDelayEnum | number;
 }
 
 export interface ITIAProviderBulkClassifyDTO {
@@ -67,6 +71,10 @@ export abstract class TTIAProvider {
   /// //////////////////////////
   //  Classifciations
   /// //////////////////////////
+  abstract classificationsCounts(): Promise<
+    Result<ITIAProviderClassificationsCountsResponse>
+  >;
+
   // Single Product
   abstract classifyProduct(
     payload: ITIAProviderClassifyProductDTO,

@@ -10,10 +10,17 @@ import {
   TBulkClassifyService,
   BulkClassifyService,
 } from './services/bulk/bulk-classify.service';
+import { ClassificationsCountsController } from './controllers/classifications-counts.controller';
+import {
+  TClassificationsCountsService,
+  ClassificationsCountsService,
+} from './services/classifications-counts.service';
 
 @Module({
   imports: [TIAProviderModule],
   controllers: [
+    ClassificationsCountsController,
+
     /// //////////////////////////
     //  Single Product
     /// //////////////////////////
@@ -28,6 +35,10 @@ import {
     /// //////////////////////////
     //  Services
     /// //////////////////////////
+    {
+      provide: TClassificationsCountsService,
+      useClass: ClassificationsCountsService,
+    },
     {
       provide: TClassifyProductService,
       useClass: ClassifyProductService,
