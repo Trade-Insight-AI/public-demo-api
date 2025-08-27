@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IApiDocumentationOptions } from '@/@decorators/api-documentation.decorator';
 
 // Response DTO Documentation
 export class BulkClassificationStatusByGroupIdResponseDoc {
@@ -78,45 +79,41 @@ export class BulkClassificationStatusByGroupIdResponseDoc {
 }
 
 // API Documentation Options
-export const BulkClassificationStatusByGroupIdDocumentation = {
-  summary: 'Get bulk classification status by group ID',
-  description:
-    'Retrieves the current status and progress of a specific bulk classification job identified by its group ID.',
-  tags: ['Classifications', 'Bulk'],
-  auth: true,
-  parameters: [
-    {
-      name: 'groupId',
-      in: 'path',
-      description: 'Unique identifier for the bulk classification group',
-      required: true,
-      schema: {
+export const BulkClassificationStatusByGroupIdDocumentation: IApiDocumentationOptions =
+  {
+    summary: 'Get bulk classification status by group ID',
+    description:
+      'Retrieves the current status and progress of a specific bulk classification job identified by its group ID.',
+    tags: ['Classifications', 'Bulk'],
+    auth: true,
+    params: [
+      {
+        name: 'groupId',
+        description: 'Unique identifier for the bulk classification group',
         type: 'string',
-        example: 'fbf8c4a2-3f99-4409-a5ef-5a82baa7b8f9',
+      },
+    ],
+    responses: {
+      success: {
+        status: 200,
+        description: 'Classification status retrieved successfully',
+        type: BulkClassificationStatusByGroupIdResponseDoc,
+      },
+      notFound: {
+        description: 'Classification group not found',
+        message: 'No classification found for the provided group ID',
+        error: 'Not Found',
+      },
+      unauthorized: {
+        description: 'Authentication required',
+        message: 'Unauthorized access',
+        error: 'Unauthorized',
+      },
+      forbidden: {
+        description:
+          'Insufficient permissions to view this classification status',
+        message: 'Access denied',
+        error: 'Forbidden',
       },
     },
-  ],
-  responses: {
-    success: {
-      status: 200,
-      description: 'Classification status retrieved successfully',
-      type: BulkClassificationStatusByGroupIdResponseDoc,
-    },
-    notFound: {
-      description: 'Classification group not found',
-      message: 'No classification found for the provided group ID',
-      error: 'Not Found',
-    },
-    unauthorized: {
-      description: 'Authentication required',
-      message: 'Unauthorized access',
-      error: 'Unauthorized',
-    },
-    forbidden: {
-      description:
-        'Insufficient permissions to view this classification status',
-      message: 'Access denied',
-      error: 'Forbidden',
-    },
-  },
-};
+  };

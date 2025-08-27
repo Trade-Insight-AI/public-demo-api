@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IApiDocumentationOptions } from '@/@decorators/api-documentation.decorator';
 
 // Response DTO Documentation
 export class BulkClassifyQueueStatusesResponseDoc {
@@ -102,27 +103,28 @@ export class BulkClassifyQueueStatusesResponseDoc {
 }
 
 // API Documentation Options
-export const BulkClassifyQueueStatusesDocumentation = {
-  summary: 'Get bulk classification queue statuses',
-  description:
-    'Retrieves the current status of the bulk classification queue, including counts of queued, processing, completed, and failed items.',
-  tags: ['Classifications', 'Bulk'],
-  auth: true,
-  responses: {
-    success: {
-      status: 200,
-      description: 'Queue statuses retrieved successfully',
-      type: BulkClassifyQueueStatusesResponseDoc,
+export const BulkClassifyQueueStatusesDocumentation: IApiDocumentationOptions =
+  {
+    summary: 'Get bulk classification queue statuses',
+    description:
+      'Retrieves the current status of the bulk classification queue, including counts of queued, processing, completed, and failed items.',
+    tags: ['Classifications', 'Bulk'],
+    auth: true,
+    responses: {
+      success: {
+        status: 200,
+        description: 'Queue statuses retrieved successfully',
+        type: BulkClassifyQueueStatusesResponseDoc,
+      },
+      unauthorized: {
+        description: 'Authentication required',
+        message: 'Unauthorized access',
+        error: 'Unauthorized',
+      },
+      forbidden: {
+        description: 'Insufficient permissions to view queue statuses',
+        message: 'Access denied',
+        error: 'Forbidden',
+      },
     },
-    unauthorized: {
-      description: 'Authentication required',
-      message: 'Unauthorized access',
-      error: 'Unauthorized',
-    },
-    forbidden: {
-      description: 'Insufficient permissions to view queue statuses',
-      message: 'Access denied',
-      error: 'Forbidden',
-    },
-  },
-};
+  };

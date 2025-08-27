@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IApiDocumentationOptions } from '@/@decorators/api-documentation.decorator';
 
 // Response DTO Documentation
 export class DeleteBulkClassificationByGroupIdResponseDoc {
@@ -10,45 +11,41 @@ export class DeleteBulkClassificationByGroupIdResponseDoc {
 }
 
 // API Documentation Options
-export const DeleteBulkClassificationByGroupIdDocumentation = {
-  summary: 'Delete bulk classification by group ID',
-  description:
-    'Deletes a bulk classification job and all its associated data identified by the group ID.',
-  tags: ['Classifications', 'Bulk'],
-  auth: true,
-  parameters: [
-    {
-      name: 'groupId',
-      in: 'path',
-      description:
-        'Unique identifier for the bulk classification group to delete',
-      required: true,
-      schema: {
+export const DeleteBulkClassificationByGroupIdDocumentation: IApiDocumentationOptions =
+  {
+    summary: 'Delete bulk classification by group ID',
+    description:
+      'Deletes a bulk classification job and all its associated data identified by the group ID.',
+    tags: ['Classifications', 'Bulk'],
+    auth: true,
+    params: [
+      {
+        name: 'groupId',
+        description:
+          'Unique identifier for the bulk classification group to delete',
         type: 'string',
-        example: 'fbf8c4a2-3f99-4409-a5ef-5a82baa7b8f9',
+      },
+    ],
+    responses: {
+      success: {
+        status: 200,
+        description: 'Bulk classification deleted successfully',
+        type: DeleteBulkClassificationByGroupIdResponseDoc,
+      },
+      notFound: {
+        description: 'Classification group not found',
+        message: 'No classification found for the provided group ID',
+        error: 'Not Found',
+      },
+      unauthorized: {
+        description: 'Authentication required',
+        message: 'Unauthorized access',
+        error: 'Unauthorized',
+      },
+      forbidden: {
+        description: 'Insufficient permissions to delete this classification',
+        message: 'Access denied',
+        error: 'Forbidden',
       },
     },
-  ],
-  responses: {
-    success: {
-      status: 200,
-      description: 'Bulk classification deleted successfully',
-      type: DeleteBulkClassificationByGroupIdResponseDoc,
-    },
-    notFound: {
-      description: 'Classification group not found',
-      message: 'No classification found for the provided group ID',
-      error: 'Not Found',
-    },
-    unauthorized: {
-      description: 'Authentication required',
-      message: 'Unauthorized access',
-      error: 'Unauthorized',
-    },
-    forbidden: {
-      description: 'Insufficient permissions to delete this classification',
-      message: 'Access denied',
-      error: 'Forbidden',
-    },
-  },
-};
+  };

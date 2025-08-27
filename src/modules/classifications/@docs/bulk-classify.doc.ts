@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IApiDocumentationOptions } from '@/@decorators/api-documentation.decorator';
 import {
   TIAProviderBulkClassificationPriorityEnum,
   TIAProviderMockDelayEnum,
@@ -93,7 +94,7 @@ export class BulkClassifyResponseDoc {
 }
 
 // API Documentation Options
-export const BulkClassifyDocumentation = {
+export const BulkClassifyDocumentation: IApiDocumentationOptions = {
   summary: 'Submit bulk classification job',
   description:
     'Uploads a file containing multiple products for bulk classification using the specified AI engine. The file should be in CSV format with product descriptions.',

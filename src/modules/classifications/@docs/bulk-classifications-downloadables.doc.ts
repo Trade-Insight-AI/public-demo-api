@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IApiDocumentationOptions } from '@/@decorators/api-documentation.decorator';
 
 // Response DTO Documentation
 export class BulkClassificationGroupDoc {
@@ -56,27 +57,28 @@ export class BulkClassificationsDownloadablesResponseDoc {
 }
 
 // API Documentation Options
-export const BulkClassificationsDownloadablesDocumentation = {
-  summary: 'Get bulk classifications available for download',
-  description:
-    'Retrieves a list of completed bulk classification jobs that are available for download.',
-  tags: ['Classifications', 'Bulk'],
-  auth: true,
-  responses: {
-    success: {
-      status: 200,
-      description: 'Downloadables retrieved successfully',
-      type: BulkClassificationsDownloadablesResponseDoc,
+export const BulkClassificationsDownloadablesDocumentation: IApiDocumentationOptions =
+  {
+    summary: 'Get bulk classifications available for download',
+    description:
+      'Retrieves a list of completed bulk classification jobs that are available for download.',
+    tags: ['Classifications', 'Bulk'],
+    auth: true,
+    responses: {
+      success: {
+        status: 200,
+        description: 'Downloadables retrieved successfully',
+        type: BulkClassificationsDownloadablesResponseDoc,
+      },
+      unauthorized: {
+        description: 'Authentication required',
+        message: 'Unauthorized access',
+        error: 'Unauthorized',
+      },
+      forbidden: {
+        description: 'Insufficient permissions to view downloadables',
+        message: 'Access denied',
+        error: 'Forbidden',
+      },
     },
-    unauthorized: {
-      description: 'Authentication required',
-      message: 'Unauthorized access',
-      error: 'Unauthorized',
-    },
-    forbidden: {
-      description: 'Insufficient permissions to view downloadables',
-      message: 'Access denied',
-      error: 'Forbidden',
-    },
-  },
-};
+  };
