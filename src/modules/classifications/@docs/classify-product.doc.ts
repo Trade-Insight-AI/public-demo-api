@@ -1,4 +1,4 @@
-import { TiaProviderMockDelayEnum } from '@/@shared/providers/tia-provider/models/tia-provider.enums';
+import { TIAProviderMockDelayEnum } from '@/@shared/providers/tia-provider/models/tia-provider.enums';
 import { ApiProperty } from '@nestjs/swagger';
 
 // Request DTO Documentation
@@ -28,7 +28,7 @@ export class ClassifyProductRequestDoc {
     oneOf: [
       {
         type: 'string',
-        enum: Object.values(TiaProviderMockDelayEnum),
+        enum: Object.values(TIAProviderMockDelayEnum),
         description: 'Predefined delay option',
       },
       {
@@ -37,10 +37,10 @@ export class ClassifyProductRequestDoc {
         description: 'Custom delay in seconds',
       },
     ],
-    example: TiaProviderMockDelayEnum.REALISTIC,
+    example: TIAProviderMockDelayEnum.REALISTIC,
     required: false,
   })
-  mockDelay?: TiaProviderMockDelayEnum | number;
+  mockDelay?: TIAProviderMockDelayEnum | number;
 }
 
 // Response DTO Documentation

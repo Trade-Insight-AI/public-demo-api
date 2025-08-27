@@ -11,6 +11,13 @@ export enum AllowedMimeTypesEnum {
   CSV = 'text/csv',
 }
 
+export const FileValidationFileSize = {
+  '2MB': 2 * 1024 * 1024,
+  '5MB': 5 * 1024 * 1024,
+  '10MB': 10 * 1024 * 1024,
+  '20MB': 20 * 1024 * 1024,
+};
+
 @Injectable()
 export class FileValidationInterceptor implements NestInterceptor {
   constructor(

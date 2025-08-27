@@ -1,11 +1,11 @@
-export enum TiaProviderMockDelayEnum {
+export enum TIAProviderMockDelayEnum {
   FAST = 'fast',
   REALISTIC = 'realistic',
   SLOW = 'slow',
   RANDOM = 'random',
 }
 
-export enum TiaProviderBulkClassificationPriorityEnum {
+export enum TIAProviderBulkClassificationPriorityEnum {
   LOW = 'LOW',
   NORMAL = 'NORMAL',
   HIGH = 'HIGH',

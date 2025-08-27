@@ -9,6 +9,8 @@ import {
   ITIAProviderListEnginesResponse,
   ITIAProviderClassifyProductDTO,
   ITIAProviderAccountBalanceResponse,
+  ITIAProviderBulkClassifyDTO,
+  ITIAProviderBulkClassifyResponse,
 } from '../models/tia-provider.struct';
 import {
   TIA_PROVIDER_ENVIRONMENT,
@@ -31,6 +33,8 @@ export class TIAProvider implements TTIAProvider {
     },
     classifications: {
       classifyProduct: 'classify/v1',
+
+      bulkClassify: 'bulk-classifications/v1',
     },
   };
 
@@ -145,6 +149,47 @@ export class TIAProvider implements TTIAProvider {
 
       this.logger.log(
         `[TIAProvider classifyProduct] response: ${JSON.stringify(data)}`,
+      );
+
+      return Result.success(data);
+    } catch (error) {
+      return Result.fail(this.errorHandler(error));
+    }
+  }
+
+  async bulkClassify(
+    payload: ITIAProviderBulkClassifyDTO,
+  ): Promise<Result<ITIAProviderBulkClassifyResponse>> {
+    try {
+      this.logger.log(
+        `[TIAProvider bulkClassify] payload: ${JSON.stringify(payload)}`,
+      );
+
+      await this.validateAndAutoRefreshTokenIfNeeded();
+
+      const { data } = await this.httpClient.post(
+        this.paths.classifications.bulkClassify,
+        {
+          engine: payload.engine,
+          priority: payload.priority,
+          forceReprocess: payload.forceReprocess,
+          file: payload.file.buffer,
+
+          requestId: payload.requestId,
+          description: payload.description,
+          testMode: payload.testMode,
+          mockDelay: payload.mockDelay,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${this.tiaAccessToken}`,
+            'Content-Type': 'multipart/form-data',
+          },
+        },
+      );
+
+      this.logger.log(
+        `[TIAProvider bulkClassify] response: ${JSON.stringify(data)}`,
       );
 
       return Result.success(data);

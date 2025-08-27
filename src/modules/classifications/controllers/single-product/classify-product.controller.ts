@@ -3,13 +3,13 @@ import { ReqContext } from '@/@decorators/request-context.decorator';
 import { AbstractApplicationException } from '@/@shared/errors/abstract-application-exception';
 import { IRequestContext } from '@/@shared/protocols/request-context.struct';
 import { Body, Controller, Post } from '@nestjs/common';
-import { ClassifyProductDocumentation } from '../@docs/classify-product-documentation.doc';
+import { ClassifyProductDocumentation } from '../../@docs/classify-product-documentation.doc';
 import { ZodValidationPipe } from '@/@shared/pipes/zod-validation.pipe';
 import {
   classifyProductDtoBodySchema,
   TClassifyProductDtoBodySchema,
-} from '../dto/classify-product.dto';
-import { TClassifyProductService } from '../services/classify-product.service';
+} from '../../dto/single-product/classify-product.dto';
+import { TClassifyProductService } from '../../services/single-product/classify-product.service';
 
 @Controller('classifications/classify-product')
 export class ClassifyProductController {

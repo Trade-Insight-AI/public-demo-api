@@ -1,5 +1,8 @@
 import { Result } from '@/@shared/classes/result';
-import { TiaProviderMockDelayEnum } from './tia-provider.enums';
+import {
+  TIAProviderBulkClassificationPriorityEnum,
+  TIAProviderMockDelayEnum,
+} from './tia-provider.enums';
 import { ITIAProviderClassifyProductDetails } from './tia-provider-classify-product.struct';
 
 export interface ITIAProviderEnvironment {
@@ -18,7 +21,7 @@ export interface ITIAProviderClassifyProductDTO {
   productDescription: string;
   engine: string;
   testMode?: boolean;
-  mockDelay?: TiaProviderMockDelayEnum | number;
+  mockDelay?: TIAProviderMockDelayEnum | number;
 }
 
 export interface ITIAProviderAccountBalanceResponse {
@@ -29,16 +32,48 @@ export interface ITIAProviderAccountBalanceResponse {
   };
 }
 
+export interface ITIAProviderBulkClassifyDTO {
+  engine: string;
+  priority: TIAProviderBulkClassificationPriorityEnum;
+  forceReprocess: boolean;
+  file: {
+    buffer: Buffer<ArrayBufferLike>;
+    originalname: string;
+    mimetype: string;
+    size: number;
+  };
+
+  requestId?: string;
+  description?: string;
+  testMode?: boolean;
+  mockDelay?: TIAProviderMockDelayEnum | number;
+}
+
+export interface ITIAProviderBulkClassifyResponse {
+  message: string;
+  group_id: string;
+}
+
 export abstract class TTIAProvider {
-  // Utilities
+  /// //////////////////////////
+  //  Utilities
+  /// //////////////////////////
   abstract login(): Promise<Result<void>>;
   abstract listEngines(): Promise<Result<ITIAProviderListEnginesResponse>>;
   abstract accountBalance(): Promise<
     Result<ITIAProviderAccountBalanceResponse>
   >;
 
-  // Classifications
+  /// //////////////////////////
+  //  Classifciations
+  /// //////////////////////////
+  // Single Product
   abstract classifyProduct(
     payload: ITIAProviderClassifyProductDTO,
   ): Promise<Result<ITIAProviderClassifyProductDetails>>;
+
+  // Bulk
+  abstract bulkClassify(
+    payload: ITIAProviderBulkClassifyDTO,
+  ): Promise<Result<ITIAProviderBulkClassifyResponse>>;
 }

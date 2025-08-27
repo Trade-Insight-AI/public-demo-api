@@ -3,12 +3,12 @@ import { ILogger } from '@/@shared/classes/custom-logger';
 import { Result } from '@/@shared/classes/result';
 import { AbstractService } from '@/@shared/classes/service';
 import { IRequestContext } from '@/@shared/protocols/request-context.struct';
-import {
-  classifyProductDtoServiceSchema,
-  TClassifyProductDtoServiceSchema,
-} from '../dto/classify-product.dto';
 import { TTIAProvider } from '@/@shared/providers/tia-provider/models/tia-provider.struct';
 import { ITIAProviderClassifyProductDetails } from '@/@shared/providers/tia-provider/models/tia-provider-classify-product.struct';
+import {
+  TClassifyProductDtoServiceSchema,
+  classifyProductDtoServiceSchema,
+} from '../../dto/single-product/classify-product.dto';
 
 export abstract class TClassifyProductService extends AbstractService<
   TClassifyProductDtoServiceSchema,
@@ -66,7 +66,9 @@ export class ClassifyProductService implements TClassifyProductService {
       return Result.fail(throwError);
     }
 
-    return Result.success(classifyProductResult.getValue()!);
+    const classifyProductDetails = classifyProductResult.getValue()!;
+
+    return Result.success(classifyProductDetails);
   }
 
   validateDto(

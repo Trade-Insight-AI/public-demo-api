@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { TiaProviderMockDelayEnum } from '@/@shared/providers/tia-provider/models/tia-provider.enums';
+import { TIAProviderMockDelayEnum } from '@/@shared/providers/tia-provider/models/tia-provider.enums';
 
 export const classifyProductDtoBodySchema = z.object({
   productDescription: z.string().min(1, 'Product description is required'),
@@ -7,7 +7,7 @@ export const classifyProductDtoBodySchema = z.object({
   testMode: z.boolean().optional(),
   mockDelay: z
     .union([
-      z.nativeEnum(TiaProviderMockDelayEnum),
+      z.nativeEnum(TIAProviderMockDelayEnum),
       z.number().int().min(1, 'Custom delay must be at least 1 second'),
     ])
     .optional(),
