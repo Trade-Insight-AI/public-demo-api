@@ -1,0 +1,24 @@
+version: '3.8'
+services:
+  database:
+    container_name: tia-public-demo-postgres
+    image: 'bitnami/postgresql'
+    restart: unless-stopped
+    environment:
+      - POSTGRESQL_USERNAME=user
+      - POSTGRESQL_PASSWORD=password
+      - POSTGRESQL_DATABASE=tia-public-demo
+    ports:
+      - '5450:5432'
+    volumes:
+      - tia-public-demo-postgres-data:/bitnami/postgresql
+    networks:
+      - tia-public-demo-network
+
+volumes:
+  tia-public-demo-postgres-data:
+    name: postgres_tia-public-demo
+
+networks:
+  tia-public-demo-network:
+    driver: bridge
