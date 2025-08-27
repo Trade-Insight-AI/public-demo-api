@@ -1,4 +1,4 @@
-import { Controller, Post } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { ApiDocumentation } from '@/@decorators/api-documentation.decorator';
 import { ReqContext } from '@/@decorators/request-context.decorator';
 import { AbstractApplicationException } from '@/@shared/errors/abstract-application-exception';
@@ -15,7 +15,7 @@ export class ClassificationsCountsController {
     private service: TClassificationsCountsService,
   ) {}
 
-  @Post()
+  @Get()
   @ApiDocumentation(ClassificationsCountsDocumentation)
   async handle(@ReqContext() context: IRequestContext) {
     const result = await this.service.execute(undefined, context);
