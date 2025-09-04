@@ -98,7 +98,7 @@ export const BulkClassifyDocumentation: IApiDocumentationOptions = {
   summary: 'Submit bulk classification job',
   description:
     'Uploads a file containing multiple products for bulk classification using the specified AI engine. The file should be in CSV format with product descriptions.',
-  tags: ['Classifications', 'Bulk'],
+  tags: ['Classifications'],
   auth: true,
   body: {
     description: 'Bulk classification request with file upload',

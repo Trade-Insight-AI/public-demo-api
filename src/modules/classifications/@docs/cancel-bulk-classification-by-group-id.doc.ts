@@ -14,7 +14,7 @@ export const CancelBulkClassificationByGroupIdDocumentation = {
   summary: 'Cancel bulk classification by group ID',
   description:
     'Cancels a running bulk classification job identified by the group ID. The job will stop processing any remaining items.',
-  tags: ['Classifications', 'Bulk'],
+  tags: ['Classifications'],
   auth: true,
   parameters: [
     {

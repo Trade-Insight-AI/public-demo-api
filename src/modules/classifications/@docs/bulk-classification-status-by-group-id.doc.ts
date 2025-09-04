@@ -84,7 +84,7 @@ export const BulkClassificationStatusByGroupIdDocumentation: IApiDocumentationOp
     summary: 'Get bulk classification status by group ID',
     description:
       'Retrieves the current status and progress of a specific bulk classification job identified by its group ID.',
-    tags: ['Classifications', 'Bulk'],
+    tags: ['Classifications'],
     auth: true,
     params: [
       {

@@ -45,7 +45,7 @@ export class SwaggerSignUpResponseDto {
 export const SignUpDocumentation: IApiDocumentationOptions = {
   summary: 'Sign up user',
   description: 'Endpoint to register a new user and generate access tokens',
-  tags: ['authentication'],
+  tags: ['Authentication'],
   auth: false,
   body: {
     description: 'User registration data',

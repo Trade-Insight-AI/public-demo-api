@@ -54,7 +54,7 @@ export const BulkClassificationResultByGroupIdDocumentation: IApiDocumentationOp
     summary: 'Get bulk classification results by group ID',
     description:
       'Retrieves the complete classification results for a specific bulk classification job identified by its group ID.',
-    tags: ['Classifications', 'Bulk'],
+    tags: ['Classifications'],
     auth: true,
     params: [
       {

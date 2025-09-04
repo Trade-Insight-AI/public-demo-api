@@ -62,7 +62,7 @@ export const BulkClassificationsDownloadablesDocumentation: IApiDocumentationOpt
     summary: 'Get bulk classifications available for download',
     description:
       'Retrieves a list of completed bulk classification jobs that are available for download.',
-    tags: ['Classifications', 'Bulk'],
+    tags: ['Classifications'],
     auth: true,
     responses: {
       success: {

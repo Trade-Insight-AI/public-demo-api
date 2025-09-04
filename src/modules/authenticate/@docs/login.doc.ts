@@ -45,7 +45,7 @@ export class SwaggerLoginResponseDto {
 export const LoginDocumentation: IApiDocumentationOptions = {
   summary: 'Login user',
   description: 'Endpoint to authenticate a user and generate access tokens',
-  tags: ['authentication'],
+  tags: ['Authentication'],
   auth: false,
   body: {
     description: 'User credentials',

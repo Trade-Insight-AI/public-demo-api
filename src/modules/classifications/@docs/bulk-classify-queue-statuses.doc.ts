@@ -108,7 +108,7 @@ export const BulkClassifyQueueStatusesDocumentation: IApiDocumentationOptions =
     summary: 'Get bulk classification queue statuses',
     description:
       'Retrieves the current status of the bulk classification queue, including counts of queued, processing, completed, and failed items.',
-    tags: ['Classifications', 'Bulk'],
+    tags: ['Classifications'],
     auth: true,
     responses: {
       success: {

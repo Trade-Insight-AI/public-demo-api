@@ -9,7 +9,7 @@ export const ClassifyProductDocumentation: IApiDocumentationOptions = {
   description: `Classify a product description using the specified AI engine. Supports test mode with configurable mock delays.
 **Response Structure:**
 Returns detailed classification information including chapters, headings, final classification, and billing details.`,
-  tags: ['classifications'],
+  tags: ['Classifications'],
   auth: true,
   body: {
     description: 'Product classification request',

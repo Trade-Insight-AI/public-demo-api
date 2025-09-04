@@ -3,7 +3,7 @@ import { IApiDocumentationOptions } from '@/@decorators/api-documentation.decora
 export const GetBalanceDocumentation: IApiDocumentationOptions = {
   summary: 'Get account balance',
   description: 'Endpoint to get the current account balance from TIA provider',
-  tags: ['transactions'],
+  tags: ['Transactions'],
   responses: {
     success: {
       status: 200,

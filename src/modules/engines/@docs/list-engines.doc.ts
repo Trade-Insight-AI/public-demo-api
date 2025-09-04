@@ -3,7 +3,7 @@ import { IApiDocumentationOptions } from '@/@decorators/api-documentation.decora
 export const ListEnginesDocumentation: IApiDocumentationOptions = {
   summary: 'List all engines',
   description: 'Endpoint to list all available engines with their costs',
-  tags: ['engines'],
+  tags: ['Engines'],
   auth: false,
   responses: {
     success: {

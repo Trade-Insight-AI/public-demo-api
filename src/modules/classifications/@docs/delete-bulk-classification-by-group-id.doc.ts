@@ -16,7 +16,7 @@ export const DeleteBulkClassificationByGroupIdDocumentation: IApiDocumentationOp
     summary: 'Delete bulk classification by group ID',
     description:
       'Deletes a bulk classification job and all its associated data identified by the group ID.',
-    tags: ['Classifications', 'Bulk'],
+    tags: ['Classifications'],
     auth: true,
     params: [
       {
