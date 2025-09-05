@@ -1,8 +1,9 @@
 {
   "name": "tia-public-demo-api",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "A comprehensive demonstration API showcasing integration with the TIA (Trade Insight AI) platform for AI-powered product classification in international trade.",
+  "author": "TIA (Trade Insight AI)",
+  "homepage": "https://www.tradeinsightai.com",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
