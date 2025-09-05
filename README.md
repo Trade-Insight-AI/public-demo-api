@@ -2,23 +2,83 @@
   <img src="https://storage.googleapis.com/tia-cdn/tia-logo.png" alt="TIA Logo" width="400" style="background-color: white; padding: 10px; border-radius: 8px;">
 </p>
 
-# TIA Public Demo API - Implementation Guide
+# TIA (Trade Insight AI) API Integration Guide - NestJS TypeScript Implementation
+
+> **Complete production-ready implementation** for integrating with TIA's AI-powered HTSUS product classification API using NestJS, TypeScript, and PostgreSQL.
 
 ## Table of Contents
 1. [Project Overview](#project-overview)
-2. [Architecture & Design Patterns](#architecture--design-patterns)
-3. [Project Structure](#project-structure)
-4. [Authentication System](#authentication-system)
-5. [TIA API Integration](#tia-api-integration)
-6. [Core Modules](#core-modules)
-7. [Database Setup](#database-setup)
-8. [Getting Started](#getting-started)
-9. [API Endpoints](#api-endpoints)
-10. [Best Practices Demonstrated](#best-practices-demonstrated)
+2. [Quick Start](#quick-start)
+3. [Architecture & Design Patterns](#architecture--design-patterns)
+4. [Project Structure](#project-structure)
+5. [Authentication System](#authentication-system)
+6. [TIA API Integration](#tia-api-integration)
+7. [Core Modules](#core-modules)
+8. [Database Setup](#database-setup)
+9. [Getting Started](#getting-started)
+10. [API Endpoints](#api-endpoints)
+11. [Best Practices Demonstrated](#best-practices-demonstrated)
+12. [FAQ](#faq)
 
 ## Project Overview
 
-This project demonstrates how to integrate with the **TIA (Trade Insight AI) public API** using a well-structured NestJS application. TIA is a service that provides AI-powered product classification for international trade, helping businesses classify products according to HTSUS (Harmonized Tariff Schedule of the United States) classifications.
+This **production-ready NestJS application** demonstrates comprehensive integration with the **TIA (Trade Insight AI) public API** for **AI-powered HTSUS product classification**. 
+
+### About Trade Insight AI (TIA)
+
+**Trade Insight AI** is a cutting-edge platform that revolutionizes international trade compliance through AI-powered product classification. TIA provides:
+
+#### 🎯 **Core Capabilities**
+- **AI-Powered Classification**: Advanced machine learning algorithms that analyze product descriptions and automatically determine accurate HTSUS codes
+- **Audit-Ready Documentation**: Every classification comes with detailed rationale and supporting documentation for customs compliance
+- **Bulk Processing**: Classify thousands of products simultaneously with enterprise-grade performance
+- **Multiple Classification Engines**: Choose from different AI models optimized for various product categories and accuracy requirements
+- **Real-time API Integration**: Seamless integration into existing business workflows and systems
+
+#### 🏢 **Business Value**
+- **Compliance Assurance**: Reduce risk of customs penalties and delays with accurate, defensible classifications
+- **Cost Efficiency**: Eliminate manual classification processes and reduce dependency on expensive trade consultants
+- **Speed & Scale**: Process large product catalogs in hours instead of weeks
+- **Audit Trail**: Maintain complete documentation for regulatory compliance and internal audits
+
+#### 🔧 **Technical Features**
+- **RESTful API**: Modern, developer-friendly API with comprehensive documentation
+- **Flexible Authentication**: Support for various authentication methods and integration patterns
+- **Rate Limiting & Quotas**: Built-in usage tracking and balance management
+- **Error Handling**: Comprehensive error responses with actionable guidance
+- **Webhook Support**: Real-time notifications for bulk processing completion
+
+### Why This Implementation Matters
+- **Scalable Architecture**: Built with enterprise-grade patterns and practices
+- **Type Safety**: Full TypeScript implementation with runtime validation
+- **Production Ready**: Includes authentication, error handling, logging, and testing
+- **Audit Compliance**: Demonstrates proper integration for trade compliance requirements
+- **Performance Optimized**: Bulk processing capabilities for high-volume classification needs
+- **Real-world Example**: Shows how to integrate TIA into existing business systems effectively
+
+## Quick Start
+
+```bash
+# Clone the repository
+git clone https://github.com/Global-Trade-AI/public-demo-api.git
+cd public-demo-api
+
+# Install dependencies
+pnpm install
+
+# Set up environment
+cp .env.example .env
+# Edit .env with your TIA API credentials
+
+# Start database
+docker-compose up -d
+
+# Run the application
+pnpm start:dev
+
+# Access API documentation
+open http://localhost:3500/api/swagger
+```
 
 **Learn more about TIA**: [https://www.tradeinsightai.com](https://www.tradeinsightai.com)
 
@@ -589,6 +649,93 @@ pnpm start:dev
 7. **Documentation Practices**: Automatic API documentation generation with Swagger
 
 This project serves as an excellent example of how to build a production-ready API integration with proper architecture, security, and maintainability practices.
+
+## FAQ
+
+### General Questions
+
+**Q: What is HTSUS and why is product classification important?**
+A: HTSUS (Harmonized Tariff Schedule of the United States) is the official classification system used by U.S. Customs to determine tariff rates and trade statistics. Based on the international Harmonized System (HS), HTSUS contains over 17,000 unique tariff lines organized into 21 sections and 99 chapters.
+
+**Why accurate classification matters:**
+- **Duty Calculation**: Determines the exact tariff rate applied to your products
+- **Regulatory Compliance**: Ensures adherence to import/export regulations and licensing requirements
+- **Trade Agreement Benefits**: Qualifies products for preferential rates under NAFTA, USMCA, and other trade agreements
+- **Statistical Reporting**: Required for accurate trade statistics and government reporting
+- **Penalty Avoidance**: Prevents costly customs penalties, which can be substantial for misclassified goods
+- **Supply Chain Efficiency**: Reduces delays and inspections at ports of entry
+
+**HTSUS Structure:**
+- **10-digit codes**: First 6 digits follow international HS, last 4 are US-specific
+- **Hierarchical system**: Products are classified from general (chapter level) to specific (subheading level)
+- **General Rules of Interpretation (GRI)**: Six rules that govern how products should be classified
+- **Section and Chapter Notes**: Provide guidance on scope and exclusions for product categories
+
+**Common Classification Challenges:**
+- **Multi-component products**: Determining the "essential character" of composite goods
+- **Textile classifications**: Complex rules based on fiber content, construction, and end-use
+- **Chemical products**: Requires understanding of molecular composition and purity levels
+- **Machinery and equipment**: Classification depends on function, capacity, and technical specifications
+- **New technologies**: Emerging products that don't fit traditional classification patterns
+
+**How TIA Addresses These Challenges:**
+- **AI-Powered Analysis**: Advanced machine learning models analyze product descriptions and characteristics
+- **Context Understanding**: Considers product materials, construction, and intended use for accurate classification
+- **Audit Documentation**: Provides detailed rationale and supporting evidence for each classification
+- **Expert Validation**: Classifications developed with trade compliance expertise and regulatory knowledge
+
+**Q: How accurate is TIA's AI classification?**
+A: TIA's AI models are trained on extensive trade data and provide highly accurate classifications with detailed audit rationale. The system offers multiple engines optimized for different product categories and use cases.
+
+**Q: Can I use this implementation in production?**
+A: Yes! This implementation follows production-ready patterns including proper error handling, authentication, logging, and security practices. However, you should review and adapt the code to meet your specific requirements and security policies.
+
+### Technical Questions
+
+**Q: Do I need to use NestJS to integrate with TIA?**
+A: No, TIA provides a standard REST API that can be integrated with any technology stack. This NestJS implementation serves as a comprehensive example, but you can adapt the integration patterns to your preferred framework.
+
+**Q: How do I get TIA API credentials?**
+A: Contact the TIA team at [https://www.tradeinsightai.com](https://www.tradeinsightai.com) to discuss your integration needs and obtain your API credentials (client ID and client secret).
+
+**Q: What's the difference between single and bulk classification?**
+A: 
+- **Single Classification**: Process one product at a time with immediate results
+- **Bulk Classification**: Upload CSV files with multiple products for batch processing, ideal for large catalogs. Limited to 1000 items at a time.
+
+**Q: Can I customize the authentication system?**
+A: Absolutely! The authentication system in this demo is just one approach. You can integrate with existing identity providers (Auth0, AWS Cognito, etc.) or implement different authentication strategies.
+
+### Integration Questions
+
+**Q: What file formats are supported for bulk classification?**
+A: The current implementation supports CSV files. The TIA API documentation provides details on the required CSV format and column structure.
+
+**Q: How do I monitor classification progress for bulk jobs?**
+A: The implementation includes endpoints to check queue status, monitor progress, and retrieve results when processing is complete.
+
+**Q: Can I cancel a bulk classification job?**
+A: Yes, the API includes endpoints to cancel running bulk classification jobs if needed. Only jobs that didn't start can be canceled.
+
+### Development Questions
+
+**Q: How do I run this project locally?**
+A: Follow the Quick Start guide above. You'll need Node.js, pnpm, Docker (for PostgreSQL), and TIA API credentials.
+
+**Q: What's the purpose of the different modules?**
+A: Each module handles a specific domain:
+- `classifications`: Product classification operations
+- `authenticate`: User authentication and JWT management
+- `accounts`: User account management
+- `engines`: Available classification engines
+- `transactions`: Usage tracking and balance management
+- `health`: Application health monitoring
+
+**Q: How do I add new features or modify existing ones?**
+A: The project follows clean architecture principles. Add new features by creating appropriate controllers, services, and DTOs following the existing patterns.
+
+**Q: Is there API documentation available?**
+A: Yes! When you run the application, Swagger documentation is available at `http://localhost:3500/api/swagger` with interactive API exploration.
 
 ---
 
