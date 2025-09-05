@@ -575,11 +575,15 @@ pnpm start:dev
 
 ## API Endpoints
 
-### Authentication
-- `POST /api/v1/auth/sign-up` - Create new account
-- `POST /api/v1/auth/login` - Authenticate user
+This implementation provides a comprehensive wrapper around the TIA public API. Below are the endpoints available in this demo application and their corresponding TIA API endpoints.
 
-### Classifications
+### Demo Application Endpoints
+
+#### Authentication
+- `POST /api/v1/auth/sign-up` - Create new account (demo-specific)
+- `POST /api/v1/auth/login` - Authenticate user (demo-specific)
+
+#### Classifications
 - `POST /api/v1/classifications/single-product/classify` - Classify single product
 - `POST /api/v1/classifications/bulk/classify` - Start bulk classification
 - `GET /api/v1/classifications/bulk/queue-status` - Get queue status
@@ -589,14 +593,117 @@ pnpm start:dev
 - `DELETE /api/v1/classifications/bulk/{groupId}` - Delete bulk classification
 - `POST /api/v1/classifications/bulk/{groupId}/cancel` - Cancel bulk classification
 
-### Engines
+#### Engines
 - `GET /api/v1/engines` - List available classification engines
 
-### Transactions
+#### Transactions
 - `GET /api/v1/transactions/balance` - Get account balance
 
-### Health
+#### Health
 - `GET /api/v1/health` - Health check endpoint
+
+### TIA Public API Reference
+
+The official TIA API documentation is available at: **https://api.tradeinsightai.com/docs**
+
+#### Core TIA API Endpoints
+
+**Authentication**
+- `POST /auth/login` - Authenticate and obtain access tokens
+- `POST /auth/refresh` - Refresh expired access tokens
+- `GET /auth/me` - Get current authenticated user information
+- `POST /auth/m2m-token` - Generate machine-to-machine tokens
+
+**Product Classification**
+- `POST /classify/v1` - Classify a single product based on description
+- `GET /engines` - Get all available classification engines
+
+**Bulk Classification**
+- `POST /bulk-classifications/v1` - Submit bulk classification request
+- `GET /bulk-classifications/v1/queue-status` - Get organization queue status
+- `GET /bulk-classifications/v1/downloadable` - Get downloadable bulk classifications
+- `GET /bulk-classifications/v1/{groupId}` - Get bulk classification status
+- `GET /bulk-classifications/v1/{groupId}/results` - Get bulk classification results
+- `DELETE /bulk-classifications/v1/{groupId}` - Delete bulk classification
+- `POST /bulk-classifications/v1/{groupId}/cancel` - Cancel pending bulk classification
+
+**Account Management**
+- `GET /transaction/balance` - Get current organization account balance
+- `GET /stats/classifications/count` - Get classification statistics
+
+**System**
+- `GET /health` - Health check endpoint
+- `GET /` - TIA landing page
+
+#### Key API Features
+
+**Authentication Methods:**
+- **Machine-to-Machine (M2M)**: Service-to-service authentication for automated systems
+
+**Classification Engines:**
+Multiple AI engines available with different capabilities and costs:
+- Different accuracy levels and processing speeds
+- Specialized engines for specific product categories
+- Cost-effective options for high-volume processing
+
+**Bulk Processing:**
+- Upload CSV files with up to 1,000 products per batch
+- Asynchronous processing with status monitoring
+- Downloadable results in multiple formats
+- Queue management and cancellation capabilities
+
+**Rate Limiting & Quotas:**
+- Built-in usage tracking and balance management
+- Transparent pricing per classification
+- Real-time balance monitoring
+
+#### Integration Notes
+
+This demo application serves as a **reference implementation** showing how to:
+
+1. **Wrap TIA API calls** in a clean service layer with proper error handling
+2. **Manage authentication tokens** automatically with refresh logic
+3. **Handle file uploads** for bulk classification workflows
+4. **Implement proper logging** and monitoring for production use
+5. **Structure API responses** consistently across your application
+6. **Add custom business logic** around TIA's core classification services
+
+The demo adds its own user management system for illustration, but in production you would typically integrate TIA directly into your existing authentication and user management systems.
+
+**Direct API Integration:**
+For direct integration without this wrapper, refer to the official API documentation at https://api.tradeinsightai.com/docs for complete endpoint specifications, request/response schemas, and authentication requirements.
+
+#### Getting Started with TIA API
+
+To integrate directly with the TIA API:
+
+1. **Obtain API Credentials**: Contact TIA to get your `client_id` and `client_secret`
+2. **Authenticate**: Use the `/auth/login` endpoint to obtain access tokens
+3. **Choose Engine**: Call `/engines` to see available classification engines
+4. **Check Balance**: Use `/transaction/balance` to verify your account credits
+5. **Classify Products**: Submit products via `/classify/v1` for single items or `/bulk-classifications/v1` for batch processing
+
+**Example Authentication Flow:**
+```bash
+# Get access token
+curl -X POST https://api.tradeinsightai.com/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "client_id": "your_client_id",
+    "client_secret": "your_client_secret"
+  }'
+
+# Use token for classification
+curl -X POST https://api.tradeinsightai.com/classify/v1 \
+  -H "Authorization: Bearer your_access_token" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "description": "Cotton t-shirt, 100% cotton, crew neck",
+    "engine": "engine_id_from_engines_endpoint"
+  }'
+```
+
+This demo application abstracts these API calls and provides additional features like user management, file upload handling, and comprehensive error handling for production use.
 
 ## Best Practices Demonstrated
 
