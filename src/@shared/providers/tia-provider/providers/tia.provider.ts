@@ -2,6 +2,9 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { AxiosError, AxiosInstance } from 'axios';
 
+/* eslint-disable-next-line @typescript-eslint/no-require-imports */
+import FormData = require('form-data');
+
 import { ILogger } from '@/@shared/classes/custom-logger';
 import { Result } from '@/@shared/classes/result';
 import {
@@ -180,23 +183,34 @@ export class TIAProvider implements TTIAProvider {
 
       await this.validateAndAutoRefreshTokenIfNeeded();
 
+      // Create FormData instance
+      const formData = new FormData();
+
+      // Append non-file fields
+      formData.append('engine', payload.engine);
+      formData.append('priority', payload.priority.toString());
+      formData.append('forceReprocess', payload.forceReprocess.toString());
+      formData.append('requestId', payload.requestId || '');
+      formData.append('description', payload.description || '');
+      formData.append('testMode', payload.testMode?.toString() || 'false');
+
+      if (payload.mockDelay !== undefined) {
+        formData.append('mockDelay', payload.mockDelay.toString());
+      }
+
+      // Append file with proper metadata
+      formData.append('file', payload.file.buffer, {
+        filename: payload.file.originalname,
+        contentType: payload.file.mimetype || 'application/octet-stream',
+      });
+
       const { data } = await this.httpClient.post(
         this.paths.classifications.bulkClassify,
-        {
-          engine: payload.engine,
-          priority: payload.priority,
-          forceReprocess: payload.forceReprocess,
-          file: payload.file.buffer,
-
-          requestId: payload.requestId,
-          description: payload.description,
-          testMode: payload.testMode,
-          mockDelay: payload.mockDelay,
-        },
+        formData,
         {
           headers: {
             Authorization: `Bearer ${this.tiaAccessToken}`,
-            'Content-Type': 'multipart/form-data',
+            ...(formData as any).getHeaders(),
           },
         },
       );
