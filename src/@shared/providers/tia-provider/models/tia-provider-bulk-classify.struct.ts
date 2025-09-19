@@ -78,6 +78,6 @@ export interface ITIAProviderBulkClassificationResultByGroupIdResponse {
     product_description: string;
     tia_classification: string;
     engine: string;
-    classification_result: string;
+    classification_result: Record<string, unknown>;
   }[];
 }
